@@ -1,7 +1,8 @@
 package org.systemexception.couchtest.pojo;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.InputStream;
-import java.util.UUID;
 
 /**
  * @author leo
@@ -9,21 +10,44 @@ import java.util.UUID;
  */
 public class Data {
 
-	private final String dataUUID;
+	private int dataCounter;
+	@SerializedName("_id")
+	private String dataId;
+	@SerializedName("_rev")
+	private String dataRev;
 	private final InputStream inputStream;
 
 	public Data() {
-		this.dataUUID = UUID.randomUUID().toString();
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		inputStream = classloader.getResourceAsStream("image.jpg");
 	}
 
-	public String getDataUUID() {
-		return dataUUID;
+	public int getDataCounter() {
+		return dataCounter;
 	}
 
 	public InputStream getInputStream() {
 		return inputStream;
+	}
+
+	public void setDataCounter(int dataCounter) {
+		this.dataCounter = dataCounter;
+	}
+
+	public String getDataId() {
+		return dataId;
+	}
+
+	public void setDataId(String dataId) {
+		this.dataId = dataId;
+	}
+
+	public String getDataRev() {
+		return dataRev;
+	}
+
+	public void setDataRev(String dataRev) {
+		this.dataRev = dataRev;
 	}
 
 	@Override
@@ -33,14 +57,18 @@ public class Data {
 
 		Data data = (Data) o;
 
-		if (dataUUID != null ? !dataUUID.equals(data.dataUUID) : data.dataUUID != null) return false;
+		if (dataCounter != data.dataCounter) return false;
+		if (dataId != null ? !dataId.equals(data.dataId) : data.dataId != null) return false;
+		if (dataRev != null ? !dataRev.equals(data.dataRev) : data.dataRev != null) return false;
 		return !(inputStream != null ? !inputStream.equals(data.inputStream) : data.inputStream != null);
 
 	}
 
 	@Override
 	public int hashCode() {
-		int result = dataUUID != null ? dataUUID.hashCode() : 0;
+		int result = dataCounter;
+		result = 31 * result + (dataId != null ? dataId.hashCode() : 0);
+		result = 31 * result + (dataRev != null ? dataRev.hashCode() : 0);
 		result = 31 * result + (inputStream != null ? inputStream.hashCode() : 0);
 		return result;
 	}
