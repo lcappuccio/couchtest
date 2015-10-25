@@ -24,19 +24,19 @@ public class Client {
 
 		List<Data> dataList = dbClient.view("_all_docs").query(Data.class);
 
-		System.out.println("Found " + dataList.size() + " items");
-
 		for (Data data: dataList) {
-			String dataUuid = data.getDataUUID();
+			int dataCounter = data.getDataCounter();
 			InputStream dataStream = data.getInputStream();
 			byte[] buffer = new byte[dataStream.available()];
 			dataStream.read(buffer);
-			File targetFile = new File("target" + File.separator + dataUuid + ".png");
+			File targetFile = new File("target" + File.separator + dataCounter + ".png");
 			OutputStream outStream = new FileOutputStream(targetFile);
 			outStream.write(buffer);
 			dataStream.close();
 			outStream.close();
-			System.out.println(data.getDataUUID());
+			System.out.println(data.getDataCounter());
 		}
+
+		System.out.println("Found " + dataList.size() + " items");
 	}
 }
